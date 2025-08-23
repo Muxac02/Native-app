@@ -1,41 +1,27 @@
 import { StatusBar } from "expo-status-bar";
-import {
-  Button,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableHighlight,
-  View,
-} from "react-native";
+import { Image, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { Input } from "./shared/Input/Input";
+import { Colors, Gaps, Radius, Typography } from "./shared/tokens";
+import Button from "./shared/Button/Button";
 
 export default function App() {
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar style="light" />
       <View style={styles.content}>
-        <Text style={styles.topText}>PurpleSchool</Text>
+        <Image
+          source={require("./assets/logo.png")}
+          style={styles.logo}
+          resizeMode="contain"
+        />
         <View style={styles.form}>
-          <TextInput
-            style={styles.textInput}
-            placeholderTextColor={"#AFB2BF"}
-            placeholder="Email"
-          />
-          <TextInput
-            style={styles.textInput}
-            placeholderTextColor={"#AFB2BF"}
-            placeholder="Пароль"
-          />
-          <TouchableHighlight
-            onPress={() => {}}
-            underlayColor={"#452481"}
-            style={styles.button}
-          >
-            <View>
-              <Text style={styles.buttonText}>Войти</Text>
-            </View>
-          </TouchableHighlight>
+          <Input placeholder="Email" />
+          <Input placeholder="Пароль" isPassword={true} />
+          <Button title="Войти" onPress={() => {}} />
         </View>
-        <Text style={styles.link}>Восстановить пароль</Text>
+        <View>
+          <Text style={styles.link}>Восстановить пароль</Text>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -45,57 +31,22 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    alignContent: "center",
-    backgroundColor: "#16171D",
+    backgroundColor: Colors.black,
+    padding: 55,
   },
   content: {
-    marginHorizontal: 55,
+    alignItems: "center",
+    gap: Gaps.g50,
   },
   form: {
-    gap: 16,
-    marginBottom: 50,
+    gap: Gaps.g16,
+    alignSelf: "stretch",
   },
-  topText: {
-    textAlign: "center",
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#fafafa",
-    marginBottom: 50,
-  },
-  textInput: {
-    height: 58,
-    paddingLeft: 26,
-    borderRadius: 10,
-    backgroundColor: "#2E2D3D",
-    fontSize: 16,
-    shadowColor: "rgba(0, 0, 0, 0.04)",
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowRadius: 32,
-    shadowOpacity: 1,
-  },
-  button: {
-    height: 58,
-    backgroundColor: "#6C38CC",
-    borderRadius: 10,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  buttonText: {
-    fontFamily: "Fira Sans",
-    fontSize: 18,
-    fontWeight: "400",
-    fontStyle: "normal",
-    color: "#fafafa",
+  logo: {
+    width: "70%",
   },
   link: {
-    textAlign: "center",
-    color: "#A97BFF",
-    fontFamily: "Fira Sans",
-    fontSize: 18,
-    fontWeight: "400",
-    fontStyle: "normal",
+    color: Colors.links,
+    ...Typography.body18,
   },
 });
