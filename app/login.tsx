@@ -1,18 +1,19 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Image, StyleSheet, Text, View } from 'react-native';
-import { Input } from './shared/Input/Input';
-import { Colors, Gaps, Typography } from './shared/tokens';
-import Button from './shared/Button/Button';
-import ErrorNotification from './shared/ErrorNotification/ErrorNotification';
+import { Image, StyleSheet, View } from 'react-native';
+import { Input } from '../shared/Input/Input';
+import { Colors, Gaps } from '../shared/tokens';
+import Button from '../shared/Button/Button';
+import ErrorNotification from '../shared/ErrorNotification/ErrorNotification';
 import { useState } from 'react';
-import Logo from './assets/logo.png';
+import Logo from '../assets/logo.png';
+import Link from '../shared/Link/Link';
 
-export default function App() {
+export default function Login() {
 	const [error, setError] = useState<string | undefined>();
 
 	const alert = () => {
-		setError('Я твою ма');
+		setError('Неправильный логин или пароль');
 		setTimeout(() => setError(undefined), 4000);
 	};
 
@@ -27,9 +28,7 @@ export default function App() {
 					<Input placeholder="Пароль" isPassword={true} />
 					<Button title="Войти" onPress={() => alert()} />
 				</View>
-				<View>
-					<Text style={styles.link}>Восстановить пароль</Text>
-				</View>
+				<Link href={'/restore'} text={'Восстановить пароль'} />
 			</View>
 		</View>
 	);
@@ -52,9 +51,5 @@ const styles = StyleSheet.create({
 	},
 	logo: {
 		width: '70%',
-	},
-	link: {
-		color: Colors.links,
-		...Typography.body18,
 	},
 });
