@@ -2,7 +2,7 @@ import { Stack } from 'expo-router';
 import React from 'react';
 import { Colors } from '../../shared/tokens';
 
-export default function RootLayout() {
+export default function AppLayout() {
 	return (
 		<Stack
 			screenOptions={{
@@ -12,6 +12,7 @@ export default function RootLayout() {
 			}}
 		>
 			<Stack.Screen name="index" options={{ headerTitle: 'Мои курсы' }} />
+			<Stack.Screen name="course/[id]" options={{ headerTitle: 'Курс №[id]' }} />
 			<Stack.Screen name="profile" options={{ headerTitle: 'Профиль' }} />
 		</Stack>
 	);

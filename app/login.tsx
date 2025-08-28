@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Image, StyleSheet, View } from 'react-native';
 import { Input } from '../shared/Input/Input';
@@ -8,25 +8,48 @@ import ErrorNotification from '../shared/ErrorNotification/ErrorNotification';
 import { useState } from 'react';
 import Logo from '../assets/logo.png';
 import Link from '../shared/Link/Link';
+import { useAtom } from 'jotai';
+import { loginAtom } from '../entities/auth/model/auth.state';
 
 export default function Login() {
-	const [error, setError] = useState<string | undefined>();
+	const [localError, setLocalError] = useState<string | undefined>();
+	const [email, setEmail] = useState<string>('');
+	const [password, setPassword] = useState<string>('');
+	const [{ isLoading, error }, login] = useAtom(loginAtom);
 
-	const alert = () => {
-		setError('Неправильный логин или пароль');
-		setTimeout(() => setError(undefined), 4000);
+	const alert = (msg: string) => {
+		setLocalError(msg);
+		setTimeout(() => setLocalError(undefined), 3000);
 	};
+
+	const attemptLogin = () => {
+		if (!email) {
+			alert('Введите почту');
+			return;
+		}
+		if (!password) {
+			alert('Введите пароль');
+			return;
+		}
+		login({ email: email, password: password });
+	};
+
+	useEffect(() => {
+		if (error) {
+			alert(error);
+		}
+	}, [error]);
 
 	return (
 		<View style={styles.container}>
-			<ErrorNotification error={error} />
+			<ErrorNotification error={localError} />
 			<StatusBar style="light" />
 			<View style={styles.content}>
 				<Image source={Logo} style={styles.logo} resizeMode="contain" />
 				<View style={styles.form}>
-					<Input placeholder="Email" />
-					<Input placeholder="Пароль" isPassword={true} />
-					<Button title="Войти" onPress={() => alert()} />
+					<Input placeholder="Email" onChangeText={setEmail} />
+					<Input placeholder="Пароль" isPassword={true} onChangeText={setPassword} />
+					<Button title="Войти" onPress={attemptLogin} disabled={isLoading} loading={isLoading} />
 				</View>
 				<Link href={'/restore'} text={'Восстановить пароль'} />
 			</View>

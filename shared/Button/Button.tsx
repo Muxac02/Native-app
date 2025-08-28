@@ -1,8 +1,16 @@
 import React from 'react';
-import { Text, PressableProps, StyleSheet, Pressable, Animated, GestureResponderEvent } from 'react-native';
+import {
+	Text,
+	PressableProps,
+	StyleSheet,
+	Pressable,
+	Animated,
+	GestureResponderEvent,
+	ActivityIndicator,
+} from 'react-native';
 import { Colors, Radius, Typography } from '../tokens';
 
-export default function Button({ title, ...props }: PressableProps & { title: string }) {
+export default function Button({ title, loading, ...props }: PressableProps & { title: string; loading?: boolean }) {
 	const animatedValue = new Animated.Value(100);
 	const color = animatedValue.interpolate({
 		inputRange: [0, 100],
@@ -31,7 +39,8 @@ export default function Button({ title, ...props }: PressableProps & { title: st
 	return (
 		<Pressable {...props} onPressIn={FadeIn} onPressOut={FadeOut}>
 			<Animated.View style={{ ...styles.button, backgroundColor: color }}>
-				<Text style={styles.text}>{title}</Text>
+				{!loading && <Text style={styles.text}>{title}</Text>}
+				{loading && <ActivityIndicator size={'large'} color={Colors.white} />}
 			</Animated.View>
 		</Pressable>
 	);
